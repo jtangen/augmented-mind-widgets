@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: The Mind's Complementary Processing Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #000000;
+            background-color: #FFFFFF;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #51247A 0%, #962A8B 100%);
+            color: #FFFFFF;
+            padding: 60px 40px;
+            margin: -20px -20px 60px -20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(81, 36, 122, 0.2);
+        }
+
+        .chapter-number {
+            font-size: 1.2em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .chapter-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        h2 {
+            color: #51247A;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 50px 0 25px 0;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #962A8B;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: #51247A;
+        }
+
+        h3 {
+            color: #962A8B;
+            font-size: 1.6em;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            padding-left: 20px;
+            border-left: 4px solid #962A8B;
+        }
+
+        h4 {
+            color: #51247A;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 30px 0 15px 0;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: left;
+            hyphens: auto;
+        }
+
+        .highlight-quote {
+            background: linear-gradient(90deg, rgba(81, 36, 122, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            border-left: 5px solid #962A8B;
+            padding: 20px 30px;
+            margin: 30px 0;
+            font-style: italic;
+            font-size: 1.1em;
+            position: relative;
+        }
+
+        .highlight-quote::before {
+            content: '"';
+            font-size: 4em;
+            color: #962A8B;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            opacity: 0.3;
+        }
+
+        .key-insight {
+            background-color: #f8f6ff;
+            border: 2px solid #962A8B;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(81, 36, 122, 0.1);
+        }
+
+        .key-insight h4 {
+            color: #51247A;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .key-insight h4::before {
+            content: '💡';
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .takeaways {
+            background: linear-gradient(135deg, #51247A 0%, #962A8B 100%);
+            color: #FFFFFF;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 50px 0;
+            box-shadow: 0 4px 20px rgba(81, 36, 122, 0.2);
+        }
+
+        .takeaways h3 {
+            color: #FFFFFF;
+            border-left: 4px solid #FFFFFF;
+            margin-top: 0;
+        }
+
+        .takeaways p {
+            margin-bottom: 15px;
+        }
+
+        .concept-definition {
+            background-color: #f0f0f5;
+            border-left: 5px solid #4085C6;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .concept-definition strong {
+            color: #51247A;
+            font-size: 1.1em;
+        }
+
+        .references {
+            background-color: #f9f9f9;
+            padding: 40px;
+            margin-top: 60px;
+            border-radius: 10px;
+            border-top: 5px solid #51247A;
+        }
+
+        .references h2 {
+            margin-top: 0;
+            color: #51247A;
+        }
+
+        .reference-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            text-indent: -20px;
+            font-size: 0.95em;
+        }
+
+        .reference-item a {
+            color: #4085C6;
+            text-decoration: none;
+        }
+
+        .reference-item a:hover {
+            text-decoration: underline;
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, #51247A 0%, #962A8B 50%, transparent 100%);
+            margin: 50px 0;
+            border: none;
+        }
+
+        .emphasis {
+            background: linear-gradient(120deg, rgba(150, 42, 139, 0.1) 0%, transparent 100%);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        .case-study {
+            background-color: #F7F1F7;
+            border-left: 4px solid #962A8B;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .case-study strong {
+            color: #962A8B;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .case-study p {
+            margin-bottom: 0;
+        }
+
+        .reflection {
+            background-color: #F0F8FF;
+            border-left: 5px solid #4085C6;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .reflection strong {
+            color: #4085C6;
+            font-size: 1.1em;
+        }
+
+        .reflection p {
+            margin-bottom: 0;
+        }
+
+        blockquote {
+            background: #F9F9F9;
+            border-left: 4px solid #BB9D65;
+            margin: 1em 0;
+            padding: 0.5em 1em;
+        }
+
+        blockquote p {
+            margin: 0.5em 0;
+        }
+
+        .ai-dialogue {
+            background: #FFF8E1;
+            border-left: 4px solid #BB9D65;
+            margin: 30px 0;
+            padding: 25px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 10px rgba(187, 157, 101, 0.1);
+        }
+
+        .ai-dialogue .speaker {
+            color: #BB9D65;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .ai-dialogue .user-input {
+            margin-bottom: 15px;
+        }
+
+        .ai-dialogue .ai-response {
+            margin-bottom: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(81, 36, 122, 0.1);
+        }
+
+        th {
+            background-color: #51247A;
+            color: #FFFFFF;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        ul, ol {
+            margin: 20px 0 20px 40px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Taxicab Widget Styles */
+        .taxicab-widget {
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .taxicab-widget .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .taxicab-widget .header {
+            background: linear-gradient(135deg, #51247A, #962A8B);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .taxicab-widget .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .taxicab-widget .header p {
+            opacity: 0.9;
+        }
+
+        .taxicab-widget .content {
+            padding: 20px;
+        }
+
+        .taxicab-widget .story {
+            background-color: #f8f9fa;
+            border-left: 4px solid #51247A;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .taxicab-widget .step {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .taxicab-widget .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .taxicab-widget .step-number {
+            background: #51247A;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .taxicab-widget .taxi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin: 15px 0;
+        }
+
+        .taxicab-widget .taxi {
+            width: 100%;
+            aspect-ratio: 1;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border: 1px solid #ddd;
+        }
+
+        .taxicab-widget .taxi.blue {
+            background-color: #4085C6;
+        }
+
+        .taxicab-widget .taxi.green {
+            background-color: #2EA836;
+        }
+
+        .taxicab-widget .result {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .taxicab-widget .button {
+            background: #51247A;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .taxicab-widget .button:hover {
+            background: #962A8B;
+        }
+
+        .taxicab-widget input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        .taxicab-widget .explanation {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .taxicab-widget .comparison {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .taxicab-widget .probability-box {
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #51247A;
+        }
+
+        .taxicab-widget .probability-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #51247A;
+            margin: 10px 0;
+        }
+
+        .taxicab-widget .hidden {
+            display: none;
+        }
+
+        /* CRT Widget Styles */
+        .crt-widget {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .crt-widget .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .crt-widget .header {
+            background: linear-gradient(135deg, #51247A, #962A8B);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .crt-widget .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .crt-widget .header p {
+            opacity: 0.9;
+        }
+
+        .crt-widget .content {
+            padding: 20px;
+        }
+
+        .crt-widget .step {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .crt-widget .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .crt-widget .step-number {
+            background: #51247A;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .crt-widget .button {
+            background: #51247A;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .crt-widget .button:hover {
+            background: #962A8B;
+        }
+
+        .crt-widget input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .crt-widget .result {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .crt-widget .explanation {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .crt-widget .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            .chapter-header {
+                padding: 40px 20px;
+                margin: -15px -15px 40px -15px;
+            }
+            
+            .chapter-title {
+                font-size: 2.2em;
+            }
+            
+            h2 {
+                font-size: 1.8em;
+            }
+            
+            h3 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chapter-header">
+        <div class="chapter-number">Chapter 2</div>
+        <h1 class="chapter-title">The Mind's Complementary Processing Systems</h1>
+        <div class="chapter-subtitle">Understanding Dual-Process Thinking in Human and Artificial Cognition</div>
+    </div>
+
+   <!-- Taxicab Widget -->
+    <div class="taxicab-widget">
+        <div class="container">
+            <div class="header">
+                <h1>The Taxicab Problem</h1>
+                <p>An exploration of systematic errors in probability judgements</p>
+            </div>
+
+            <div class="content">
+                <div class="story">
+                    <p>🌙 Late one night, a taxi was involved in a hit-and-run accident...</p>
+                    <p>In the city where this happened, there are just two taxi companies:
+                        <span style="color: #4085C6; font-weight: bold;">Blue Taxis</span> and
+                        <span style="color: #2EA836; font-weight: bold;">Green Taxis</span>.
+                    </p>
+                    <p>By official records: 15% of taxis are Blue,
+                        and 85% are Green.
+                    </p>
+                    <p>A witness—whose identification of taxi color is correct
+                        about 80% of the time—said the taxi was
+                        <span style="color: #4085C6; font-weight: bold;">Blue</span>.
+                    </p>
+                </div>
+
+                <div class="step" id="step1">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <h3>Visualising the base rates</h3>
+                    </div>
+                    <p>Imagine 20 taxis in the city, matching the 15% vs. 85% distribution. That's roughly
+                        3 Blue taxis and 17 Green taxis:
+                    </p>
+                    <div class="taxi-grid" id="taxiGrid">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="step" id="step2">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <h3>Your best guess</h3>
+                    </div>
+                    <p>
+                        If the witness (80% accurate) claims the taxi was Blue,
+                        what is the actual probability that the taxi was truly Blue?
+                        (Hint: It's not 80%. Recall how the base rate of only 15% Blue
+                        might shift the odds.)
+                    </p>
+                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                        <input type="number" id="userGuess" min="0" max="100" placeholder="Enter %">
+                        <button id="checkButton" class="button">Check Answer</button>
+                    </div>
+                </div>
+
+                <div id="result" class="hidden">
+                    <div class="result">
+                        <h3>Results</h3>
+                        <p>Your guess: <span id="userGuessDisplay">-</span>%</p>
+                        <p>Actual probability: <span id="correctAnswer">41.2</span>% (approximately)</p>
+                    </div>
+
+                    <div class="explanation">
+                        <h3 style="color: #51247A; margin-bottom: 15px;">Why ~41% and not 80%?</h3>
+
+                        <div class="probability-box">
+                            <p>Most people's first instinct is to trust the witness's 80% accuracy.</p>
+                            <p>But because Blue taxis are relatively rare (just 15%),
+                                we can't ignore that base rate.</p>
+                        </div>
+
+                        <div class="comparison">
+                            <div>
+                                <p>Common mistake:</p>
+                                <div class="probability-value">80%</div>
+                                <p>Ignoring the low base rate</p>
+                            </div>
+                            <div>→</div>
+                            <div>
+                                <p>Correct answer:</p>
+                                <div class="probability-value">~41%</div>
+                                <p>Combining both witness accuracy and base rate</p>
+                            </div>
+                        </div>
+
+                        <p style="font-style: italic; text-align: center;">
+                            This is a classic example of base-rate neglect.
+                            Even a reliable witness cannot outweigh a low prior probability
+                            without explicit statistical calculation.
+                        </p>
+                        <button id="resetButton" class="button" style="width: 100%;">
+                            Try a Different Guess
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Generate the static 3 Blue / 17 Green cabs
+            function populateTaxiGrid() {
+                const grid = document.getElementById('taxiGrid');
+                grid.innerHTML = '';
+                // 3 Blue cabs
+                for (let i = 0; i < 3; i++) {
+                    const taxi = document.createElement('div');
+                    taxi.className = 'taxi blue';
+                    grid.appendChild(taxi);
+                }
+                // 17 Green cabs
+                for (let i = 0; i < 17; i++) {
+                    const taxi = document.createElement('div');
+                    taxi.className = 'taxi green';
+                    grid.appendChild(taxi);
+                }
+            }
+
+            function checkAnswer() {
+                const userGuess = document.getElementById('userGuess').value;
+                document.getElementById('result').classList.remove('hidden');
+                document.getElementById('userGuessDisplay').textContent = userGuess || '–';
+            }
+
+            function reset() {
+                document.getElementById('result').classList.add('hidden');
+                document.getElementById('userGuess').value = '';
+            }
+
+            // Event listeners
+            document.getElementById('checkButton').addEventListener('click', checkAnswer);
+            document.getElementById('resetButton').addEventListener('click', reset);
+
+            // Initialise
+            populateTaxiGrid();
+        </script>
+    </div>
