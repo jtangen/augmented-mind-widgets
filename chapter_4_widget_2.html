@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: Building Mental Lego - Problem-Solving Strategy Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #000000;
+            background-color: #FFFFFF;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #51247A 0%, #962A8B 100%);
+            color: #FFFFFF;
+            padding: 60px 40px;
+            margin: -20px -20px 60px -20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(81, 36, 122, 0.2);
+        }
+
+        .chapter-number {
+            font-size: 1.2em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .chapter-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .strategy-simulator {
+            max-width: 900px;
+            margin: 40px auto;
+            font-family: Arial, sans-serif;
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(81, 36, 122, 0.18);
+            overflow: hidden;
+        }
+
+        .simulator-header {
+            background: linear-gradient(135deg, #51247A, #962A8B);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .simulator-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%);
+        }
+
+        .simulator-header h3 {
+            margin: 0 0 15px 0;
+            font-size: 30px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .simulator-header p {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 17px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .simulator-content {
+            padding: 35px;
+        }
+
+        .strategy-tabs {
+            display: flex;
+            border-bottom: 2px solid #E0DCD8;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #962A8B #E0DCD8;
+        }
+
+        .strategy-tabs::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .strategy-tabs::-webkit-scrollbar-track {
+            background: #E0DCD8;
+            border-radius: 4px;
+        }
+
+        .strategy-tabs::-webkit-scrollbar-thumb {
+            background-color: #962A8B;
+            border-radius: 4px;
+        }
+
+        .strategy-tab {
+            padding: 12px 20px;
+            background: #F5F5F5;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            color: #666;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .strategy-tab:hover {
+            background: #EEE;
+            color: #51247A;
+        }
+
+        .strategy-tab.active {
+            background: #51247A;
+            color: white;
+            box-shadow: 0 2px 8px rgba(81, 36, 122, 0.2);
+        }
+
+        .problem-scenario {
+            background: #F9F9F9;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #962A8B;
+        }
+
+        .problem-scenario h4 {
+            margin-top: 0;
+            color: #51247A;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .strategy-content {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .strategy-content.active {
+            display: block;
+        }
+
+        .strategy-explanation {
+            background: #F0F8FF;
+            border-left: 4px solid #4085C6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .strategy-explanation h4 {
+            margin-top: 0;
+            color: #4085C6;
+        }
+
+        .application-steps {
+            margin: 25px 0;
+        }
+
+        .application-step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: #51247A;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 15px;
+            margin-top: 3px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h5 {
+            margin: 0 0 8px 0;
+            color: #51247A;
+        }
+
+        .benefit-tag {
+            display: inline-block;
+            background: #F1EEF6;
+            color: #51247A;
+            font-size: 14px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #D1C7E2;
+        }
+
+        .pitfall-tag {
+            display: inline-block;
+            background: #FFEBEE;
+            color: #D32F2F;
+            font-size: 14px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #FFCDD2;
+        }
+
+        .reflection-prompt {
+            background: linear-gradient(to right, #F7F1F7, #FFFFFF);
+            border-left: 4px solid #962A8B;
+            padding: 20px;
+            margin: 25px 0 5px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .reflection-prompt h4 {
+            margin-top: 0;
+            color: #962A8B;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .strategy-simulator {
+                margin: 20px 10px;
+            }
+
+            .simulator-header {
+                padding: 25px 15px;
+            }
+
+            .simulator-header h3 {
+                font-size: 24px;
+            }
+
+            .simulator-content {
+                padding: 20px 15px;
+            }
+
+            .strategy-tab {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chapter-header">
+        <div class="chapter-number">Chapter 4</div>
+        <h1 class="chapter-title">Building Mental Lego: How Humans (and Machines) Solve Problems</h1>
+        <div class="chapter-subtitle">Problem-Solving Strategy Simulator</div>
+    </div>
+
+    <div class="strategy-simulator">
+        <div class="simulator-header">
+            <h3>Problem-Solving Strategy Simulator</h3>
+            <p>Explore how different problem-solving strategies can be applied to real-world scenarios</p>
+        </div>
+
+        <div class="simulator-content">
+            <div class="problem-scenario">
+                <h4>Scenario: The Research Project Dilemma</h4>
+                <p>You're a team leader for a major research project with a looming deadline in six weeks. Your team has collected a vast amount of data, but you're struggling to organise it and develop meaningful conclusions. Team members have different ideas about which direction to take, and several technical challenges have emerged in your analysis methods. The project's success is critical for your organisation's funding.</p>
+                <p><strong>Goal:</strong> Complete a comprehensive research report that effectively analyses the data and presents meaningful conclusions before the deadline.</p>
+            </div>
+
+            <div class="strategy-tabs">
+                <button class="strategy-tab active" onclick="switchStrategy(event, 'means-ends')">Means-Ends Analysis</button>
+                <button class="strategy-tab" onclick="switchStrategy(event, 'working-backwards')">Working Backwards</button>
+                <button class="strategy-tab" onclick="switchStrategy(event, 'visual-representation')">Visual Representations</button>
+                <button class="strategy-tab" onclick="switchStrategy(event, 'subgoals')">Breaking into Subgoals</button>
+            </div>
+
+            <!-- Means-Ends Analysis Strategy -->
+            <div id="means-ends" class="strategy-content active">
+                <div class="strategy-explanation">
+                    <h4>Means-Ends Analysis</h4>
+                    <p>This strategy involves repeatedly comparing your current state with the goal state, then identifying actions to reduce the difference between them. It helps break down complex problems by focusing on the gap between where you are and where you want to be.</p>
+                </div>
+
+                <div class="application-steps">
+                    <div class="application-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5>Identify the gap between current and goal states</h5>
+                            <p>Define precisely what you have now (disorganised data, conflicting team opinions, technical challenges) and what you need (comprehensive report with meaningful conclusions).</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5>Determine the largest obstacles</h5>
+                            <p>Prioritise the biggest gaps: perhaps the team lacks consensus on which findings are most significant, or the data organisation doesn't support clear analysis.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5>Develop specific actions to overcome each obstacle</h5>
+                            <p>For the consensus gap, schedule a structured meeting with clear decision criteria. For data organisation, implement a shared database with standardised formats.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h5>Continuously reassess as you progress</h5>
+                            <p>After implementing each solution, reevaluate the remaining gaps between current and goal states, focusing next on the most critical differences.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Benefits and Potential Pitfalls</h4>
+                    <div>
+                        <span class="benefit-tag">Systematic approach</span>
+                        <span class="benefit-tag">Focuses efforts on biggest gaps</span>
+                        <span class="benefit-tag">Adapts as situation evolves</span>
+                        <span class="pitfall-tag">Can feel mechanical</span>
+                        <span class="pitfall-tag">May miss creative solutions</span>
+                    </div>
+                </div>
+
+                <div class="reflection-prompt">
+                    <h4>Your Turn</h4>
+                    <p>Think about a complex task you're currently facing. How could you apply means-ends analysis? What is the biggest gap between your current state and goal state? What specific action would most effectively reduce this gap?</p>
+                </div>
+            </div>
+
+            <!-- Working Backwards Strategy -->
+            <div id="working-backwards" class="strategy-content">
+                <div class="strategy-explanation">
+                    <h4>Working Backwards</h4>
+                    <p>This strategy involves starting from the desired end state and determining what steps would have been necessary to reach it. It's particularly useful when the goal is clear but the initial path is unclear.</p>
+                </div>
+
+                <div class="application-steps">
+                    <div class="application-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5>Define the completed research report in detail</h5>
+                            <p>Envision exactly what the successful report will contain: key sections, findings, recommendations, visualisations, and executive summary.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5>Determine what must happen immediately before completion</h5>
+                            <p>The report would need final editing, team review, and compilation of all sections—this must happen in the final week.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5>Continue backwards through each prerequisite step</h5>
+                            <p>Before final compilation: all analyses must be complete (week 5). Before analyses: data must be properly organised and validated (weeks 3-4). Before organisation: team must agree on approach and key questions (weeks 1-2).</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h5>Create a reverse timeline with deadlines</h5>
+                            <p>Once you've traced backward to your current position, convert this into a forward-moving timeline with specific milestones and deadlines for each prerequisite.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Benefits and Potential Pitfalls</h4>
+                    <div>
+                        <span class="benefit-tag">Clarifies necessary prerequisites</span>
+                        <span class="benefit-tag">Creates natural timeline</span>
+                        <span class="benefit-tag">Ensures focus on goal</span>
+                        <span class="pitfall-tag">May miss alternative paths</span>
+                        <span class="pitfall-tag">Can be derailed by unexpected obstacles</span>
+                    </div>
+                </div>
+
+                <div class="reflection-prompt">
+                    <h4>Your Turn</h4>
+                    <p>Consider an academic or career goal you want to achieve in the next year. Starting from that completed goal, work backwards to identify the chain of steps needed to get there. What are the critical prerequisites that must happen in sequence?</p>
+                </div>
+            </div>
+
+            <!-- Visual Representations Strategy -->
+            <div id="visual-representation" class="strategy-content">
+                <div class="strategy-explanation">
+                    <h4>Visual Representations</h4>
+                    <p>This strategy involves creating diagrams, charts, or other visual formats to make relationships and patterns more apparent. It leverages our visual-spatial reasoning abilities and reduces cognitive load.</p>
+                </div>
+
+                <div class="application-steps">
+                    <div class="application-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5>Map relationships in your research data</h5>
+                            <p>Create a concept map showing connections between different variables or findings in your research, using colours and line types to indicate relationship strength and direction.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5>Visualise your project timeline</h5>
+                            <p>Develop a Gantt chart or similar timeline visualising all tasks, their durations, dependencies, and responsible team members, making bottlenecks immediately apparent.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5>Create decision trees for analysis choices</h5>
+                            <p>Draw a tree diagram showing different analysis paths and their consequences, helping the team see implications of different methodological choices.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h5>Use visual feedback in team discussions</h5>
+                            <p>During meetings, continuously document ideas and decisions visually on shared boards, giving everyone a unified visual representation of the conversation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Benefits and Potential Pitfalls</h4>
+                    <div>
+                        <span class="benefit-tag">Makes patterns more obvious</span>
+                        <span class="benefit-tag">Reduces memory load</span>
+                        <span class="benefit-tag">Facilitates team communication</span>
+                        <span class="pitfall-tag">Can oversimplify complex relationships</span>
+                        <span class="pitfall-tag">May take time to create well</span>
+                    </div>
+                </div>
+
+                <div class="reflection-prompt">
+                    <h4>Your Turn</h4>
+                    <p>Choose a concept or problem from your studies that you find difficult to grasp. How could you visualise it to make relationships clearer? Try sketching a diagram, flowchart, or concept map and notice whether it changes your understanding.</p>
+                </div>
+            </div>
+
+            <!-- Breaking into Subgoals Strategy -->
+            <div id="subgoals" class="strategy-content">
+                <div class="strategy-explanation">
+                    <h4>Breaking into Subgoals</h4>
+                    <p>This strategy involves dividing a large, complex problem into smaller, more manageable pieces. Each subgoal becomes its own mini-problem that can be tackled individually before integrating solutions.</p>
+                </div>
+
+                <div class="application-steps">
+                    <div class="application-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5>Identify distinct components of the research project</h5>
+                            <p>Divide the overall goal into separate subgoals: data cleaning and organisation, statistical analysis, literature review integration, findings interpretation, and report writing.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5>Prioritise and sequence the subgoals</h5>
+                            <p>Determine which subgoals are prerequisites for others. Data cleaning must precede analysis, while literature review could happen in parallel. Create a logical sequence.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5>Assign responsibility and resources</h5>
+                            <p>Distribute subgoals among team members based on expertise. Assign the statistical analysis to team members with quantitative strengths while literature experts handle theoretical integration.</p>
+                        </div>
+                    </div>
+
+                    <div class="application-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h5>Create integration points</h5>
+                            <p>Establish specific checkpoints where subgoal solutions will be integrated. Schedule integration meetings where insights from different subteams can be synthesised into a cohesive whole.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Benefits and Potential Pitfalls</h4>
+                    <div>
+                        <span class="benefit-tag">Makes complex problems manageable</span>
+                        <span class="benefit-tag">Enables parallel work</span>
+                        <span class="benefit-tag">Leverages team strengths</span>
+                        <span class="pitfall-tag">May lose sight of overall goal</span>
+                        <span class="pitfall-tag">Integration challenges</span>
+                    </div>
+                </div>
+
+                <div class="reflection-prompt">
+                    <h4>Your Turn</h4>
+                    <p>Think of a complex assignment or project you're currently working on. How could you divide it into 3-5 distinct subgoals? Which subgoals could be tackled independently, and which depend on others being completed first?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchStrategy(event, strategyId) {
+            // Update tab highlighting
+            var tabs = document.getElementsByClassName("strategy-tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].className = tabs[i].className.replace(" active", "");
+            }
+            event.currentTarget.className += " active";
+
+            // Show the selected strategy content
+            var contents = document.getElementsByClassName("strategy-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].className = contents[i].className.replace(" active", "");
+            }
+            document.getElementById(strategyId).className += " active";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: Building Mental Lego - Mental Representation Explorer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #000000;
+            background-color: #FFFFFF;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #51247A 0%, #962A8B 100%);
+            color: #FFFFFF;
+            padding: 60px 40px;
+            margin: -20px -20px 60px -20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(81, 36, 122, 0.2);
+        }
+
+        .chapter-number {
+            font-size: 1.2em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .chapter-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .mental-explorer {
+            max-width: 900px;
+            margin: 40px auto;
+            font-family: Arial, sans-serif;
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(81, 36, 122, 0.18);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .mental-explorer:hover {
+            transform: translateY(-5px);
+        }
+
+        .mental-explorer-header {
+            background: linear-gradient(135deg, #51247A, #962A8B);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mental-explorer-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 60%);
+        }
+
+        .mental-explorer-header h3 {
+            margin: 0 0 15px 0;
+            font-size: 30px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .mental-explorer-header p {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 17px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .mental-explorer-content {
+            padding: 35px;
+        }
+
+        .representation-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .explorer-card {
+            border: 2px solid #E0DCD8;
+            border-radius: 14px;
+            padding: 22px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .explorer-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .explorer-card:hover {
+            border-color: #962A8B;
+            transform: translateY(-8px);
+        }
+
+        .explorer-card:hover::after {
+            opacity: 1;
+        }
+
+        .card-title {
+            color: #51247A;
+            font-weight: bold;
+            font-size: 19px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: color 0.3s ease;
+        }
+
+        .explorer-card:hover .card-title {
+            color: #962A8B;
+        }
+
+        .card-title::after {
+            content: '⌄';
+            font-size: 26px;
+            transition: transform 0.4s ease;
+        }
+
+        .explorer-card.active .card-title::after {
+            transform: rotate(180deg);
+        }
+
+        .card-content {
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .explorer-card.active {
+            background: linear-gradient(to bottom, white, #FCF9FF);
+        }
+
+        .explorer-card.active .card-content {
+            height: auto;
+            opacity: 1;
+            margin-top: 18px;
+        }
+
+        .example-box {
+            background: linear-gradient(to right, #F8F8F8, #FFFFFF);
+            border-left: 4px solid #BB9D65;
+            padding: 18px;
+            margin-top: 18px;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .example-box::before {
+            content: 'Example';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: #FBF7E9;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #BB9D65;
+            font-style: normal;
+            border: 1px solid #E9DFC0;
+        }
+
+        .interactive-area {
+            background: linear-gradient(135deg, #F8F8F8, #FFFFFF);
+            padding: 30px;
+            margin-top: 35px;
+            border-radius: 12px;
+            border: 1px solid #D7D1CC;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .interactive-area::before {
+            content: '💡';
+            position: absolute;
+            top: -15px;
+            left: 25px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid #D7D1CC;
+            font-size: 20px;
+        }
+
+        .instruction {
+            color: #51247A;
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #FBF7E9;
+            color: #BB9D65;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 1px solid #E9DFC0;
+        }
+
+        .thinking-prompt {
+            background-color: #F0F8FF;
+            border-left: 4px solid #4085C6;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95em;
+        }
+
+        .thinking-prompt strong {
+            color: #4085C6;
+        }
+
+        @media (max-width: 600px) {
+            .mental-explorer {
+                margin: 20px 10px;
+                border-radius: 12px;
+            }
+
+            .mental-explorer-header {
+                padding: 25px 15px;
+            }
+
+            .mental-explorer-header h3 {
+                font-size: 24px;
+            }
+
+            .mental-explorer-content {
+                padding: 20px 15px;
+            }
+
+            .representation-cards {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .explorer-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chapter-header">
+        <div class="chapter-number">Chapter 4</div>
+        <h1 class="chapter-title">Building Mental Lego: How Humans (and Machines) Solve Problems</h1>
+        <div class="chapter-subtitle">Mental Representation Explorer</div>
+    </div>
+
+    <div class="mental-explorer">
+        <div class="mental-explorer-header">
+            <h3>Mental Representation Explorer</h3>
+            <p>Explore how different types of mental representations and reasoning styles shape our thinking processes</p>
+        </div>
+
+        <div class="mental-explorer-content">
+            <div class="representation-cards">
+                <div class="explorer-card" onclick="this.classList.toggle('active')" tabindex="0" role="button" aria-expanded="false">
+                    <div class="card-title">Visual Representations</div>
+                    <div class="card-content">
+                        <span class="card-badge">Mental Images</span>
+                        <p>Internal images we create and manipulate in our mind's eye. These representations support spatial reasoning, creative problem-solving, and mental simulation.</p>
+                        <div class="example-box">
+                            When a chess master visualises potential moves several turns ahead, or when you mentally rearrange furniture in your living room before physically moving anything.
+                        </div>
+                        <div class="thinking-prompt">
+                            <strong>Think about it:</strong> When did you last use visual imagery to solve a problem? How detailed was your mental picture?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explorer-card" onclick="this.classList.toggle('active')" tabindex="0" role="button" aria-expanded="false">
+                    <div class="card-title">Conceptual Representations</div>
+                    <div class="card-content">
+                        <span class="card-badge">Abstract Concepts</span>
+                        <p>Abstract ideas, categories, and principles we use for complex thinking. These help us understand non-physical concepts and reason about relationships between ideas.</p>
+                        <div class="example-box">
+                            Understanding abstract concepts like "justice" or "democracy," or grasping mathematical principles without concrete examples. Concepts like "force" in physics link observable phenomena to theoretical constructs.
+                        </div>
+                        <div class="thinking-prompt">
+                            <strong>Think about it:</strong> What abstract concept do you find particularly difficult to represent mentally? How do you make sense of it?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explorer-card" onclick="this.classList.toggle('active')" tabindex="0" role="button" aria-expanded="false">
+                    <div class="card-title">Deductive Reasoning</div>
+                    <div class="card-content">
+                        <span class="card-badge">General → Specific</span>
+                        <p>Moving from general principles to specific, logically certain conclusions. This is the foundation of formal logic and mathematical proof, yielding conclusions that must be true if the premises are true.</p>
+                        <div class="example-box">
+                            If all mammals are warm-blooded, and all dogs are mammals, then we can deduce with certainty that all dogs are warm-blooded. Deductive reasoning is truth-preserving but depends on correct premises.
+                        </div>
+                        <div class="thinking-prompt">
+                            <strong>Think about it:</strong> Can you identify a time when you used deductive reasoning in your academic work? What were your premises and conclusion?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explorer-card" onclick="this.classList.toggle('active')" tabindex="0" role="button" aria-expanded="false">
+                    <div class="card-title">Inductive Reasoning</div>
+                    <div class="card-content">
+                        <span class="card-badge">Specific → General</span>
+                        <p>Drawing broader conclusions from specific observations or examples. This is how we learn from experience, form hypotheses, and make predictions about new situations.</p>
+                        <div class="example-box">
+                            After observing that every swan you've seen is white, you might conclude that all swans are white. This conclusion is probable but not certain - and indeed would be disproven by seeing black swans in Australia!
+                        </div>
+                        <div class="thinking-prompt">
+                            <strong>Think about it:</strong> What conclusions have you drawn inductively from your personal experiences? How confident are you in these conclusions?
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-area">
+                <div class="instruction">
+                    <p>Think of a complex problem you've recently solved. Which types of mental representations and reasoning did you use? Click the cards above to explore each type, then reflect on how you might consciously apply different thinking styles to future challenges.</p>
+                    <p style="margin-top: 15px; font-style: italic; font-size: 0.9em;">Try noting down your reflections to deepen your understanding of your own cognitive processes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
