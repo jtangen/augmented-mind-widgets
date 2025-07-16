@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: Your Brain's Brilliant Shortcuts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #000000;
+            background-color: #FFFFFF;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #51247A 0%, #962A8B 100%);
+            color: #FFFFFF;
+            padding: 60px 40px;
+            margin: -20px -20px 60px -20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(81, 36, 122, 0.2);
+        }
+
+        .chapter-number {
+            font-size: 1.2em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .chapter-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* Enhanced Wason Selection Task Widget Styles */
+        .wason-widget {
+            font-family: 'Roboto', Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            background: #fff;
+        }
+
+        .wason-header {
+            background: linear-gradient(135deg, #51247A, #962A8B);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .wason-header h2 {
+            margin: 0 0 10px 0;
+            color: white;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .wason-header p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+        }
+
+        .wason-progress {
+            height: 6px;
+            background: #f0f0f0;
+            margin: 0;
+        }
+
+        .wason-progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, #51247A, #962A8B);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .wason-stage {
+            display: none;
+            padding: 30px;
+        }
+
+        .wason-stage.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .wason-content-box {
+            background: #f9f7fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .wason-rule-box {
+            background: white;
+            border-left: 4px solid #51247A;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+            font-size: 1.2em;
+            color: #51247A;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .wason-instruction {
+            font-size: 1.15em;
+            color: #333;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .wason-cards-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .wason-card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .wason-card-wrapper:hover {
+            transform: translateY(-5px);
+        }
+
+        .wason-card {
+            width: 100%;
+            height: 160px;
+            background: white;
+            border: 3px solid #51247A;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #51247A;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wason-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, #51247A, #962A8B);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .wason-card-wrapper:hover .wason-card:before {
+            transform: translateY(0);
+        }
+
+        .wason-card.selected {
+            border-color: #962A8B;
+            box-shadow: 0 6px 20px rgba(150, 42, 139, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .wason-card.selected:before {
+            transform: translateY(0);
+        }
+
+        .wason-card-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .wason-card-wrapper:hover .wason-card-label {
+            color: #51247A;
+        }
+
+        .wason-card-checkbox {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid #51247A;
+            position: relative;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .wason-card-checkbox:checked {
+            background: #51247A;
+        }
+
+        .wason-card-checkbox:checked:after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .wason-card-checkbox:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(81, 36, 122, 0.3);
+        }
+
+        .wason-button {
+            background: linear-gradient(to right, #51247A, #962A8B);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 25px auto;
+            min-width: 200px;
+        }
+
+        .wason-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(150, 42, 139, 0.2);
+        }
+
+        .wason-button:active {
+            transform: translateY(0);
+        }
+
+        .wason-button svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .wason-button:hover svg {
+            transform: translateX(3px);
+        }
+
+        .wason-feedback {
+            background: #f9f7fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .wason-explanation-box {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin: 30px 0;
+        }
+
+        .wason-card-explanation {
+            margin: 25px 0;
+        }
+
+        .wason-card-explanation h4 {
+            color: #51247A;
+            margin: 20px 0 10px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wason-card-explanation h4:before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #51247A;
+            border-radius: 50%;
+        }
+
+        .wason-bias-insight {
+            background: #f0e5f9;
+            border-left: 4px solid #51247A;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 6px;
+        }
+
+        .wason-real-world {
+            background: #e6f3ff;
+            border-left: 4px solid #4085C6;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 6px;
+        }
+
+        .wason-real-world ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .wason-real-world li {
+            margin: 8px 0;
+            position: relative;
+            padding-left: 5px;
+        }
+
+        .wason-progress-container {
+            padding: 15px 25px;
+            background: #f9f9f9;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .wason-progress-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .wason-cards-3d {
+            perspective: 1000px;
+        }
+
+        .wason-card {
+            transition: transform 0.5s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .wason-card.flip {
+            transform: rotateY(180deg);
+        }
+
+        .wason-card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+        }
+
+        .wason-card-front {
+            z-index: 2;
+        }
+
+        .wason-card-back {
+            transform: rotateY(180deg);
+            background: #f9f7fc;
+            font-size: 2em;
+            color: #962A8B;
+        }
+
+        .wason-answer-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .wason-answer-icon {
+            width: 35px;
+            height: 35px;
+            background: #51247A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .wason-answer-icon.correct {
+            background: #2a9d8f;
+        }
+
+        .wason-answer-icon.incorrect {
+            background: #e63946;
+        }
+
+        .wason-answer-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #51247A;
+            margin: 0;
+        }
+
+        .wason-answer-subtitle {
+            color: #666;
+            margin: 5px 0 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .wason-widget {
+                margin: 20px 0;
+            }
+            
+            .wason-cards-container {
+                gap: 15px;
+            }
+            
+            .wason-card-wrapper {
+                width: 100px;
+            }
+            
+            .wason-card {
+                height: 140px;
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chapter-header">
+        <div class="chapter-number">Chapter 3</div>
+        <h1 class="chapter-title">Your Brain's Brilliant Shortcuts (And Where They Lead You Astray)</h1>
+        <div class="chapter-subtitle">Understanding Heuristics and Biases in Human Decision-Making</div>
+    </div>
+
+    <!-- Wason Selection Task Widget -->
+    <div class="wason-widget">
+        <div class="wason-header">
+            <h2>The Wason Selection Task</h2>
+            <p>Explore How We Test Logical Rules</p>
+        </div>
+
+        <div class="wason-progress">
+            <div id="wasonProgressBar" class="wason-progress-bar"></div>
+        </div>
+
+        <div id="wasonStages">
+            <!-- Stage 1: Introduction -->
+            <div class="wason-stage active" id="wasonStage1">
+                <div class="wason-content-box">
+                    <h3>Understanding the Task</h3>
+                    <p>In 1966, psychologist Peter Wason developed a task that reveals how our minds approach logical reasoning.</p>
+                    <p>You'll be shown four cards. Each card has a letter on one side and a number on the other. Your job is to verify whether a rule is being followed.</p>
+
+                    <div class="wason-rule-box">
+                        "If a card has D on one side, then it must have 3 on the other side"
+                    </div>
+
+                    <p>This experiment helps reveal confirmation bias - our tendency to look for evidence that confirms our beliefs rather than evidence that could disprove them.</p>
+
+                    <button class="wason-button" onclick="nextWasonStage(2)">
+                        Start Task
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stage 2: Card Selection -->
+            <div class="wason-stage" id="wasonStage2">
+                <p class="wason-instruction">Which cards must you turn over to verify if the rule is being followed?</p>
+                <div class="wason-rule-box">
+                    "If a card has D on one side, then it must have 3 on the other side"
+                </div>
+
+                <div class="wason-cards-container wason-cards-3d">
+                    <div class="wason-card-wrapper">
+                        <div class="wason-card" data-card="D" onclick="toggleCardSelection('D')">
+                            <div class="wason-card-face wason-card-front">D</div>
+                            <div class="wason-card-face wason-card-back">?</div>
+                        </div>
+                        <label class="wason-card-label">
+                            <input type="checkbox" value="D" class="wason-card-checkbox" id="cardD"
+                                onchange="updateCardSelection('D')">
+                            Select Card D
+                        </label>
+                    </div>
+
+                    <div class="wason-card-wrapper">
+                        <div class="wason-card" data-card="K" onclick="toggleCardSelection('K')">
+                            <div class="wason-card-face wason-card-front">K</div>
+                            <div class="wason-card-face wason-card-back">?</div>
+                        </div>
+                        <label class="wason-card-label">
+                            <input type="checkbox" value="K" class="wason-card-checkbox" id="cardK"
+                                onchange="updateCardSelection('K')">
+                            Select Card K
+                        </label>
+                    </div>
+
+                    <div class="wason-card-wrapper">
+                        <div class="wason-card" data-card="3" onclick="toggleCardSelection('3')">
+                            <div class="wason-card-face wason-card-front">3</div>
+                            <div class="wason-card-face wason-card-back">?</div>
+                        </div>
+                        <label class="wason-card-label">
+                            <input type="checkbox" value="3" class="wason-card-checkbox" id="card3"
+                                onchange="updateCardSelection('3')">
+                            Select Card 3
+                        </label>
+                    </div>
+
+                    <div class="wason-card-wrapper">
+                        <div class="wason-card" data-card="7" onclick="toggleCardSelection('7')">
+                            <div class="wason-card-face wason-card-front">7</div>
+                            <div class="wason-card-face wason-card-back">?</div>
+                        </div>
+                        <label class="wason-card-label">
+                            <input type="checkbox" value="7" class="wason-card-checkbox" id="card7"
+                                onchange="updateCardSelection('7')">
+                            Select Card 7
+                        </label>
+                    </div>
+                </div>
+
+                <button id="checkWasonAnswer" class="wason-button" onclick="checkWasonAnswer()">
+                    Check Answer
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Stage 3: Feedback -->
+            <div class="wason-stage" id="wasonStage3">
+                <div id="wasonFeedback" class="wason-feedback">
+                    <!-- Feedback content will be inserted here -->
+                </div>
+
+                <div class="wason-explanation-box">
+                    <h3>Understanding Confirmation Bias in Logical Reasoning</h3>
+                    <p>The Wason Selection Task reveals how our minds naturally approach testing rules, and why confirmation bias leads most people to make predictable errors.</p>
+
+                    <div class="wason-card-explanation">
+                        <h4>Why Card D?</h4>
+                        <p>We must check if D has 3 on the back. If it doesn't, the rule is violated since it states "If D, then 3."</p>
+
+                        <h4>Why Card 7?</h4>
+                        <p>We must check if 7 has D on the back. If it did, it would violate the rule since any D must have 3 (not 7) on the other side.</p>
+
+                        <h4>Why not Card K?</h4>
+                        <p>The rule says nothing about other letters. The rule is "If D, then 3" - not "If not D, then not 3." Whatever is on K's other side cannot violate our rule.</p>
+
+                        <h4>Why not Card 3?</h4>
+                        <p>The rule doesn't say all 3s must have D. It only says all Ds must have 3. Finding a 3 with a letter other than D on the back doesn't violate the rule.</p>
+                    </div>
+
+                    <div class="wason-bias-insight">
+                        <h4>The Power of Confirmation Bias</h4>
+                        <p>Most people (over 90% in studies) select Card D (correct) and Card 3 (incorrect). This demonstrates confirmation bias: we naturally look for evidence that confirms our hypothesis rather than evidence that could falsify it.</p>
+                        <p>Checking Card 3 feels intuitive because it seems to "confirm" the rule if it has D on the back. But logically, finding a 3 with any letter other than D doesn't violate the rule.</p>
+                        <p>Meanwhile, Card 7 is crucial for falsification but often overlooked. This reveals how our minds aren't naturally programmed for formal logic, but rather for "positive testing" - looking for confirming instances.</p>
+                    </div>
+
+                    <div class="wason-real-world">
+                        <h4>Real-World Impact</h4>
+                        <p>This tendency to seek confirming evidence while neglecting potential falsification affects many areas:</p>
+                        <ul>
+                            <li><strong>Scientific research:</strong> focusing only on supporting evidence rather than rigorously testing hypotheses</li>
+                            <li><strong>Medical diagnosis:</strong> confirming initial suspicions while missing critical disconfirming symptoms</li>
+                            <li><strong>Political beliefs:</strong> seeking news that supports our views while dismissing contradictory information</li>
+                            <li><strong>Business decisions:</strong> gathering data that supports a strategy without considering evidence against it</li>
+                        </ul>
+                    </div>
+
+                    <button class="wason-button" onclick="resetWasonTask()">
+                        Try Again
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z" />
+                            <path d="M9 10l-6 2 6 2" />
+                            <path d="M15 4.5v5l4-2.5z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wason-progress-container">
+            <div class="wason-progress-text">Your progress:</div>
+            <div class="wason-progress">
+                <div id="wasonProgressBarFooter" class="wason-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentWasonStage = 1;
+        const selectedWasonCards = new Set();
+
+        function updateWasonProgress() {
+            const progress = ((currentWasonStage - 1) / 2) * 100;
+            document.getElementById('wasonProgressBar').style.width = `${progress}%`;
+            document.getElementById('wasonProgressBarFooter').style.width = `${progress}%`;
+        }
+
+        function nextWasonStage(stage) {
+            document.querySelectorAll('.wason-stage').forEach(s => s.classList.remove('active'));
+            document.getElementById(`wasonStage${stage}`).classList.add('active');
+            currentWasonStage = stage;
+            updateWasonProgress();
+
+            // Scroll to widget top
+            document.querySelector('.wason-widget').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function toggleCardSelection(card) {
+            const checkbox = document.getElementById(`card${card}`);
+            checkbox.checked = !checkbox.checked;
+            updateCardSelection(card);
+
+            // Visual feedback - card flip animation
+            const cardElement = document.querySelector(`.wason-card[data-card="${card}"]`);
+            cardElement.classList.add('flip');
+
+            setTimeout(() => {
+                cardElement.classList.remove('flip');
+            }, 500);
+        }
+
+        function updateCardSelection(card) {
+            const checkbox = document.getElementById(`card${card}`);
+            const cardElement = document.querySelector(`.wason-card[data-card="${card}"]`);
+
+            if (checkbox.checked) {
+                selectedWasonCards.add(card);
+                cardElement.classList.add('selected');
+            } else {
+                selectedWasonCards.delete(card);
+                cardElement.classList.remove('selected');
+            }
+        }
+
+        function checkWasonAnswer() {
+            const selectedCards = Array.from(selectedWasonCards);
+            const correctCards = ['D', '7'];
+            const isCorrect = arraysEqual(selectedCards.sort(), correctCards.sort());
+
+            const feedback = document.getElementById('wasonFeedback');
+
+            if (isCorrect) {
+                feedback.innerHTML = `
+                    <div class="wason-answer-header">
+                        <div class="wason-answer-icon correct">✓</div>
+                        <div>
+                            <h3 class="wason-answer-title">Excellent Logical Reasoning!</h3>
+                            <p class="wason-answer-subtitle">You've correctly identified the cards that need to be checked.</p>
+                        </div>
+                    </div>
+                    <p>You've correctly identified that we need to check:</p>
+                    <ul>
+                        <li><strong>Card D</strong> to ensure it has 3 on the back (confirming the rule)</li>
+                        <li><strong>Card 7</strong> to ensure it doesn't have D on the back (which would falsify the rule)</li>
+                    </ul>
+                    <p>This shows strong analytical thinking and avoidance of confirmation bias. Only about 10% of people get this right on their first try!</p>
+                `;
+            } else if (selectedCards.includes('D') && selectedCards.includes('3') && selectedCards.length === 2) {
+                feedback.innerHTML = `
+                    <div class="wason-answer-header">
+                        <div class="wason-answer-icon incorrect">!</div>
+                        <div>
+                            <h3 class="wason-answer-title">Common Confirmation Bias Pattern</h3>
+                            <p class="wason-answer-subtitle">You've selected the most common pattern (D and 3), showing classic confirmation bias.</p>
+                        </div>
+                    </div>
+                    <p>Selecting cards D and 3 is the most common response, but it's not logically complete:</p>
+                    <ul>
+                        <li><strong>Card D</strong> is correct - we need to check if it has 3 on the back</li>
+                        <li><strong>Card 3</strong> is not necessary - finding a letter other than D on the back wouldn't violate the rule</li>
+                        <li><strong>Card 7</strong> is missing - we need to check it doesn't have D on the back (which would violate the rule)</li>
+                    </ul>
+                    <p>This pattern shows how we naturally seek confirming evidence rather than disconfirming evidence.</p>
+                `;
+            } else {
+                feedback.innerHTML = `
+                    <div class="wason-answer-header">
+                        <div class="wason-answer-icon incorrect">!</div>
+                        <div>
+                            <h3 class="wason-answer-title">Let's Analyse Your Selection</h3>
+                            <p class="wason-answer-subtitle">Your answer differs from the logically necessary cards.</p>
+                        </div>
+                    </div>
+                    <p>To properly test the rule "If a card has D on one side, then it must have 3 on the other side", we need to check:</p>
+                    <ul>
+                        <li><strong>Card D</strong> to see if it has 3 on the back (necessary)</li>
+                        <li><strong>Card 7</strong> to see if it has D on the back (necessary)</li>
+                    </ul>
+                    <p>Cards K and 3 don't need to be checked because they can't possibly violate our rule.</p>
+                    <p>This task reveals how challenging logical reasoning can be, especially when it involves negative testing strategies.</p>
+                `;
+            }
+
+            nextWasonStage(3);
+        }
+
+        function resetWasonTask() {
+            selectedWasonCards.clear();
+
+            document.querySelectorAll('.wason-card-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            document.querySelectorAll('.wason-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            nextWasonStage(1);
+        }
+
+        function arraysEqual(a, b) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (a[i] !== b[i]) return false;
+            }
+            return true;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            updateWasonProgress();
+        });
+    </script>
+</body>
+</html>

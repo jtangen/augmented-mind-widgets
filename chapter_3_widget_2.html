@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: Your Brain's Brilliant Shortcuts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #000000;
+            background-color: #FFFFFF;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #51247A 0%, #962A8B 100%);
+            color: #FFFFFF;
+            padding: 60px 40px;
+            margin: -20px -20px 60px -20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(81, 36, 122, 0.2);
+        }
+
+        .chapter-number {
+            font-size: 1.2em;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .chapter-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* Enhanced Confirmation Bias Widget Styles */
+        .confirmation-widget {
+            font-family: 'Roboto', Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            background: #fff;
+        }
+
+        .confirmation-header {
+            background: linear-gradient(135deg, #51247A, #962A8B);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .confirmation-header h2 {
+            margin: 0 0 10px 0;
+            color: white;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .confirmation-header p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+        }
+
+        .confirmation-progress {
+            height: 6px;
+            background: #f0f0f0;
+            margin: 0;
+        }
+
+        .confirmation-progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, #51247A, #962A8B);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .confirmation-content {
+            padding: 25px;
+        }
+
+        .sequence-container {
+            background: #f9f7fc;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .sequence-title {
+            font-weight: 600;
+            color: #51247A;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .sequence-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #51247A;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .confirmation-question {
+            font-size: 1.1em;
+            color: #333;
+            margin: 25px 0 20px;
+            font-weight: 500;
+        }
+
+        .confirmation-options {
+            margin: 25px 0;
+        }
+
+        .confirmation-option {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .confirmation-option label {
+            position: relative;
+            display: block;
+            padding: 15px 20px 15px 60px;
+            background: #f9f7fc;
+            border: 2px solid #e6d9f2;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .confirmation-option label:hover {
+            background: #f0e5f9;
+            border-color: #d4c5e5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .confirmation-option input[type="radio"]:checked+label {
+            background: #efe5f5;
+            border-color: #51247A;
+            color: #51247A;
+            font-weight: 500;
+        }
+
+        .confirmation-option label:before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            border: 2px solid #d4c5e5;
+            border-radius: 50%;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .confirmation-option input[type="radio"]:checked+label:before {
+            border-color: #51247A;
+            background: #51247A;
+            box-shadow: inset 0 0 0 4px white;
+        }
+
+        .confirmation-feedback {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .confirmation-feedback.confirming {
+            background: #fff8e6;
+            border-left: 4px solid #f9c74f;
+        }
+
+        .confirmation-feedback.disconfirming {
+            background: #e6f9ef;
+            border-left: 4px solid #2a9d8f;
+        }
+
+        .confirmation-feedback h3 {
+            margin-top: 0;
+            color: #51247A;
+        }
+
+        .confirmation-explanation {
+            background: #f0f8ff;
+            border-left: 4px solid #4085C6;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .confirmation-explanation h3 {
+            color: #4085C6;
+            margin-top: 0;
+        }
+
+        .confirmation-button {
+            background: linear-gradient(to right, #51247A, #962A8B);
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 180px;
+        }
+
+        .confirmation-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(150, 42, 139, 0.2);
+        }
+
+        .confirmation-button:active {
+            transform: translateY(0);
+        }
+
+        .confirmation-button:disabled {
+            background: #d4d4d4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .confirmation-button svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .confirmation-button:hover svg {
+            transform: translateX(3px);
+        }
+
+        .confirmation-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .light-button {
+            background: #f7f1f7;
+            color: #51247A;
+            border: 1px solid #d4c5e5;
+            padding: 13px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .light-button:hover {
+            background: #efe5f5;
+            transform: translateY(-2px);
+        }
+
+        .confirmation-learn-more {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .wason-insight {
+            background: #f9f7fc;
+            border-left: 4px solid #51247A;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .confirmation-progress-container {
+            margin-top: 30px;
+            padding: 15px 25px;
+            background: #f9f9f9;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .confirmation-progress-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-widget {
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chapter-header">
+        <div class="chapter-number">Chapter 3</div>
+        <h1 class="chapter-title">Your Brain's Brilliant Shortcuts (And Where They Lead You Astray)</h1>
+        <div class="chapter-subtitle">Understanding Heuristics and Biases in Human Decision-Making</div>
+    </div>
+
+    <!-- Confirmation Bias Widget -->
+    <div class="confirmation-widget">
+        <div class="confirmation-header">
+            <h2>Test Your Hypothesis</h2>
+            <p>Explore how we tend to confirm rather than challenge our beliefs</p>
+        </div>
+
+        <div class="confirmation-progress">
+            <div id="confirmationProgressBar" class="confirmation-progress-bar"></div>
+        </div>
+
+        <div class="confirmation-content">
+            <div class="sequence-container">
+                <div class="sequence-title">The sequence below follows a rule:</div>
+                <div class="sequence-display">2 - 4 - 6</div>
+                <p>A reasonable hypothesis might be "numbers increasing by 2." However, this may not be the complete rule.</p>
+            </div>
+
+            <div class="confirmation-question">
+                Which sequence would you test first to determine if your hypothesis about the rule is correct?
+            </div>
+
+            <div class="confirmation-options">
+                <div class="confirmation-option">
+                    <input type="radio" name="confirmationSequence" id="confirming1" value="confirming1">
+                    <label for="confirming1">4 - 6 - 8</label>
+                </div>
+
+                <div class="confirmation-option">
+                    <input type="radio" name="confirmationSequence" id="confirming2" value="confirming2">
+                    <label for="confirming2">8 - 10 - 12</label>
+                </div>
+
+                <div class="confirmation-option">
+                    <input type="radio" name="confirmationSequence" id="disconfirming" value="disconfirming">
+                    <label for="disconfirming">1 - 2 - 3</label>
+                </div>
+            </div>
+
+            <div id="feedback-confirming1" class="confirmation-feedback confirming">
+                <h3>Confirmation Bias in Action!</h3>
+                <p>This sequence follows your hypothesis of "increasing by 2," but it only confirms what you already believe. The true rule is actually <strong>"any ascending numbers."</strong></p>
+                <p>By testing only confirming cases, you're missing opportunities to discover the broader rule. This is a classic example of confirmation bias.</p>
+                <div class="wason-insight">
+                    <p>In Wason's original experiment, most participants tested only sequences that fit their initial hypothesis, never discovering the actual rule.</p>
+                </div>
+            </div>
+
+            <div id="feedback-confirming2" class="confirmation-feedback confirming">
+                <h3>Another Example of Confirmation Bias</h3>
+                <p>Like 4-6-8, this sequence only seeks to confirm rather than challenge your hypothesis. Both these sequences will return "yes, this follows the rule" - but that doesn't help you narrow down what the rule actually is.</p>
+                <p>It's natural to look for confirming evidence, but this tendency (confirmation bias) can prevent us from discovering the full truth.</p>
+            </div>
+
+            <div id="feedback-disconfirming" class="confirmation-feedback disconfirming">
+                <h3>Excellent Scientific Thinking!</h3>
+                <p>This sequence tests a different pattern while still following the true rule ("any ascending numbers"). By testing a sequence that breaks your "increasing by 2" hypothesis but might still follow the rule, you're more likely to discover the actual rule.</p>
+                <p>Testing potential disconfirming evidence is the cornerstone of good scientific thinking and a powerful way to overcome confirmation bias.</p>
+            </div>
+
+            <div class="confirmation-learn-more">
+                <button id="confirmationNextButton" class="confirmation-button" style="display: none;">
+                    Learn More
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="confirmationExplanation" class="confirmation-explanation">
+                <h3>Understanding Confirmation Bias</h3>
+                <p>Confirmation bias is our tendency to search for, interpret, and remember information in a way that confirms our preexisting beliefs or hypotheses. It's one of the most pervasive cognitive biases humans exhibit.</p>
+
+                <p>In Wason's classic 2-4-6 task:</p>
+                <ul>
+                    <li>Participants tried to discover the rule for number sequences</li>
+                    <li>Most tested only examples that fit their hypothesis (like "increasing by 2")</li>
+                    <li>They rarely tested sequences that might disprove their hypothesis</li>
+                    <li>As a result, many never discovered the actual rule ("any ascending numbers")</li>
+                </ul>
+
+                <p>This demonstrates how we naturally seek information that confirms what we already believe while neglecting to test alternative possibilities - even when testing alternatives would be more informative.</p>
+
+                <p>Confirmation bias affects many areas of our lives:</p>
+                <ul>
+                    <li><strong>Echo chambers</strong> on social media where we only see views similar to our own</li>
+                    <li><strong>Medical diagnoses</strong> where doctors may focus on evidence supporting their initial impression</li>
+                    <li><strong>Political discourse</strong> where we discount evidence that contradicts our viewpoint</li>
+                    <li><strong>Scientific research</strong> where scientists might unconsciously design studies to confirm their hypotheses</li>
+                </ul>
+
+                <p>To overcome confirmation bias, actively look for evidence that could prove your hypothesis wrong. This scientific approach leads to more accurate beliefs and better decisions.</p>
+
+                <div class="confirmation-actions">
+                    <button class="light-button" onclick="resetConfirmationBias()">Try Again</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="confirmation-progress-container">
+            <div class="confirmation-progress-text">Your progress in understanding confirmation bias:</div>
+            <div class="confirmation-progress">
+                <div id="confirmationProgressBarFooter" class="confirmation-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let confirmationProgress = 0;
+
+        function updateConfirmationProgress(value) {
+            confirmationProgress = value;
+            document.getElementById('confirmationProgressBar').style.width = `${value}%`;
+            document.getElementById('confirmationProgressBarFooter').style.width = `${value}%`;
+        }
+
+        // Handle option selection
+        document.querySelectorAll('input[name="confirmationSequence"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Hide all feedback first
+                document.querySelectorAll('.confirmation-feedback').forEach(fb => {
+                    fb.style.display = 'none';
+                });
+
+                // Show relevant feedback
+                document.getElementById(`feedback-${e.target.value}`).style.display = 'block';
+
+                // Show next button
+                document.getElementById('confirmationNextButton').style.display = 'inline-flex';
+
+                // Update progress
+                updateConfirmationProgress(50);
+
+                // Scroll to feedback
+                document.getElementById(`feedback-${e.target.value}`).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            });
+        });
+
+        // Handle learn more button
+        document.getElementById('confirmationNextButton').addEventListener('click', () => {
+            document.getElementById('confirmationExplanation').style.display = 'block';
+            updateConfirmationProgress(100);
+
+            // Scroll to explanation
+            document.getElementById('confirmationExplanation').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+
+        function resetConfirmationBias() {
+            // Reset all elements
+            document.querySelectorAll('.confirmation-feedback').forEach(fb => {
+                fb.style.display = 'none';
+            });
+            document.getElementById('confirmationExplanation').style.display = 'none';
+            document.getElementById('confirmationNextButton').style.display = 'none';
+
+            // Uncheck all radio buttons
+            document.querySelectorAll('input[name="confirmationSequence"]').forEach(radio => {
+                radio.checked = false;
+            });
+
+            // Reset progress
+            updateConfirmationProgress(0);
+
+            // Scroll to top of widget
+            document.querySelector('.confirmation-widget').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            updateConfirmationProgress(0);
+        });
+    </script>
+</body>
+</html>
